@@ -8,7 +8,7 @@ PyTorch implementation of CropMAE [[`arXiv`](https://www.example.com)]. Our code
 
 ## Checkpoints
 
-| Dataset  | $\mathcal{J\&F}_m$ | mIoU | PCK@0.1 | Download |
+| Dataset  | $J\\&F_m$          | mIoU | PCK@0.1 | Download |
 | -------- | ------------------ | ---- | ------- | -------- |
 | ImageNet | 60.4               | 33.3 | 43.6    |  [link](https://drive.google.com/file/d/1RTkARjzkM9S3OO87AzVeDbYAF_b2zA-2/view?usp=sharing)
 | K400     | 58.6               | 33.7 | 42.9    |  [link](https://drive.google.com/file/d/1oMXiX_uyGzyQB7S-MYkdJvKFmIuPXkYb/view?usp=sharing)
