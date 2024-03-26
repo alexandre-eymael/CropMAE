@@ -1,0 +1,15 @@
+torch==2.2.1
+torchvision==0.17.1
+timm==0.9.16
+wandb
+imageio
+opencv-python
+matplotlib
+seaborn
+simple-slurm
+submitit
+decord
+scikit-image
+scikit-learn
+pandas
+visdom

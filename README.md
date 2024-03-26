@@ -1,2 +1,41 @@
 # CropMAE
-CropMAE
+
+PyTorch implementation of CropMAE [[`arXiv`](https://www.example.com)]. Our code is based on the offial [PyTorch implementation of MAE](https://github.com/facebookresearch/mae).
+
+<div align="center">
+  <img width="100%" alt="CropMAE illustration" src=".github/CropMAE.png">
+</div>
+
+## Checkpoints
+
+| Dataset  | $\mathcal{J\&F}_m$ | mIoU | PCK@0.1 | Download |
+| -------- | ------------------ | ---- | ------- | -------- |
+| ImageNet | 60.4               | 33.3 | 43.6    |  [link](https://drive.google.com/file/d/1RTkARjzkM9S3OO87AzVeDbYAF_b2zA-2/view?usp=sharing)
+| K400     | 58.6               | 33.7 | 42.9    |  [link](https://drive.google.com/file/d/1oMXiX_uyGzyQB7S-MYkdJvKFmIuPXkYb/view?usp=sharing)
+
+## Training
+
+### Environment
+Create a virtual environment (e.g., using conda or venv) with Python 3.11 and install the dependencies:
+
+```bash
+conda create --name CropMAE python=3.11
+conda activate CropMAE
+python -m pip install -r requirements.txt
+```
+### Starting the training
+
+This section assumes that you want to run CropMAE with default parameters. You can run `python3 train_cropmae_in.py -h` to have a complete list of possible parameters that you can change.
+
+#### Single GPU
+To start the training on a single GPU, you just have to provide the path to your dataset (typically ImageNet):
+
+```bash
+python train_cropmae_in.py --data_path=path/to/imagenet/folder
+```
+
+#### Multi-GPUs
+We provide a script to start the training on a cluster of GPUs using slurm. Modify the `scripts/train_cropmae_in.sh` with the parameters you want to use and start the training with:
+```bash
+cd scripts && sbatch train_cropmae_in.sh
+```
