@@ -227,11 +227,10 @@ if __name__ == "__main__":
     VIT_PATCH_SIZE = 16
     SET = "val" 
     DAVIS_ROOT = "CropMAE/downstreams/propagation"
+    
     DAVIS_DATASET = "datasets/davis-2017/DAVIS_480_880/"
     DAVIS_FILE = "CropMAE/downstreams/propagation/davis_vallist_480_880.txt"
-
     JHMDB_FILE = "CropMAE/downstreams/propagation/jhmdb_vallist.txt"
-
     VIP_FILE = "CropMAE/downstreams/propagation/vip_vallist.txt"
 
     davis_prop_args = {
@@ -317,11 +316,14 @@ if __name__ == "__main__":
     )
 
     res_davis = evaluate_on_davis(davis_prop_args, conversion_davis_args, evaluation_davis_args)
-
     res_jhmdb = evaluate_on_jhmdb(jhmdb_prop_args, evaluation_jhmdb_args)
-
     res_vip = evaluate_on_vip(vip_prop_args, evaluation_vip_args)
     
+    print("Results:")
+    print("DAVIS:", res_davis)
+    print("JHMDB", res_jhmdb)
+    print("VIP", res_vip)
+
     wandb.log(res_davis)
     wandb.log(res_jhmdb)
     wandb.log(res_vip)

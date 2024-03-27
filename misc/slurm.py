@@ -14,8 +14,7 @@ def submit_DAVIS_slurm(name, epoch, checkpoint):
         output=f"./logs/{Slurm.JOB_ID}_{Slurm.JOB_NAME}.out",
         gpus_per_node=1,
         cpus_per_gpu=8,
-        mem_per_gpu="50G",
-        account="your-account"
+        mem_per_gpu="50G"
     )
 
     # modules

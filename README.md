@@ -1,6 +1,6 @@
 # CropMAE
 
-PyTorch implementation of CropMAE [[`arXiv`](https://www.example.com)]. Our code is based on the offial [PyTorch implementation of MAE](https://github.com/facebookresearch/mae).
+PyTorch implementation of CropMAE [[`arXiv`](https://arxiv.org/abs/2403.17823)]. Our code is based on the offial [PyTorch implementation of MAE](https://github.com/facebookresearch/mae).
 
 <div align="center">
   <img width="100%" alt="CropMAE illustration" src=".github/CropMAE.png">
@@ -39,3 +39,17 @@ We provide a script to start the training on a cluster of GPUs using slurm. Modi
 ```bash
 cd scripts && sbatch train_cropmae_in.sh
 ```
+
+## Evaluation
+
+### Prerequisites
+Download the [DAVIS](https://davischallenge.org/), [JHMDB](http://jhmdb.is.tue.mpg.de/), and [VIP](https://github.com/HCPLab-SYSU/ATEN) datasets.
+
+### Perform evaluation
+Adapt `downstreams/propagation/start.py` to include the paths to the datasets you have previously downloaded. You may also adjust other parameters related to the evaluation, though the default settings are based on the ones we used. After making these adjustments, simply execute the following command to start the evaluation:
+
+```bash
+cd scripts && python3 -m downstreams.propagation.start {name} {epoch} {checkpoint}
+```
+
+This will create the folder `downstreams/propagation/{name}_{epoch}` and evaluate the checkpoint `{checkpoint}` for the three downstream tasks. The results will be saved in this folder, printed to standard output, and reported on Weights & Biases if enabled.
