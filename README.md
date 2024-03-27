@@ -49,7 +49,7 @@ Download the [DAVIS](https://davischallenge.org/), [JHMDB](http://jhmdb.is.tue.m
 Adapt `downstreams/propagation/start.py` to include the paths to the datasets you have previously downloaded. You may also adjust other parameters related to the evaluation, though the default settings are based on the ones we used. After making these adjustments, simply execute the following command to start the evaluation:
 
 ```bash
-cd scripts && python3 -m downstreams.propagation.start {name} {epoch} {checkpoint}
+python3 -m downstreams.propagation.start {name} {epoch} {checkpoint}
 ```
 
 This will create the folder `downstreams/propagation/{name}_{epoch}` and evaluate the checkpoint `{checkpoint}` for the three downstream tasks. The results will be saved in this folder, printed to standard output, and reported on Weights & Biases if enabled.
