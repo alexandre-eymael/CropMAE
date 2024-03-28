@@ -225,17 +225,18 @@ if __name__ == "__main__":
     checkpoint = sys.argv[3]
 
     VIT_PATCH_SIZE = 16
+    model_type = f"vits{VIT_PATCH_SIZE}"
     SET = "val" 
-    DAVIS_ROOT = "CropMAE/downstreams/propagation"
+    DAVIS_ROOT = "downstreams/propagation"
     
     DAVIS_DATASET = "datasets/davis-2017/DAVIS_480_880/"
-    DAVIS_FILE = "CropMAE/downstreams/propagation/davis_vallist_480_880.txt"
-    JHMDB_FILE = "CropMAE/downstreams/propagation/jhmdb_vallist.txt"
-    VIP_FILE = "CropMAE/downstreams/propagation/vip_vallist.txt"
+    DAVIS_FILE = "downstreams/propagation/davis_vallist_480_880.txt"
+    JHMDB_FILE = "downstreams/propagation/jhmdb_vallist.txt"
+    VIP_FILE = "downstreams/propagation/vip_vallist.txt"
 
     davis_prop_args = {
         "davis_root" : DAVIS_ROOT,
-        "model_type": f"vits{VIT_PATCH_SIZE}",
+        "model_type": model_type,
         "resume": checkpoint,
         "save_path": f"{DAVIS_ROOT}/{name}_{epoch}/in/",
         "temperature": 0.7,
@@ -259,7 +260,7 @@ if __name__ == "__main__":
     }
 
     jhmdb_prop_args = {
-        "model_type": f"vits{VIT_PATCH_SIZE}",
+        "model_type": model_type,
         "resume": checkpoint,
         "save_path": f"{DAVIS_ROOT}/{name}_{epoch}/jhmdb/",
         "temperature": 0.7,
@@ -277,7 +278,7 @@ if __name__ == "__main__":
     }
 
     vip_prop_args = {
-        "model_type": f"vits{VIT_PATCH_SIZE}",
+        "model_type": model_type,
         "resume": checkpoint,
         "save_path": f"{DAVIS_ROOT}/{name}_{epoch}/vip/",
         "temperature": 0.7,
