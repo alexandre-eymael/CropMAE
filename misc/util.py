@@ -41,7 +41,8 @@ def get_args_parser():
     parser.add_argument('--epochs', default=400, type=int)
     parser.add_argument('--start_epoch', default=0, type=int)
     parser.add_argument('--warmup_epochs_prop', default=0.05, type=float, help='relative length of warmup in epochs')
-
+    parser.add_argument('--resume', default='', help='resume from checkpoint')
+    
     # Augmentation parameters
     parser.add_argument('--random_area_min_global', type=float, default=0.2, help='random area min')
     parser.add_argument('--random_area_max_global', type=float, default=1.0, help='random area max')
