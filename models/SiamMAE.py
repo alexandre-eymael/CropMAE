@@ -155,6 +155,7 @@ def siam_mae_vit_large(patch_size=16, decoder_embed_dim=1024, decoder_depth=12, 
         patch_size=patch_size, embed_dim=1024, depth=24, num_heads=16,
         decoder_embed_dim=decoder_embed_dim, decoder_depth=decoder_depth, decoder_num_heads=decoder_num_heads,
         mlp_ratio=4, norm_layer=partial(nn.LayerNorm, eps=1e-6), **kwargs)
+    return model
     
 SIAM_MODELS = {
     "vits" : siam_mae_vit_small,
