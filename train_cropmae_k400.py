@@ -88,6 +88,9 @@ def main(args):
 
     loss_scaler = NativeScaler()
 
+    # Resume
+    misc.load_model(args=args, model_without_ddp=model_without_ddp, optimizer=optimizer, loss_scaler=loss_scaler)
+
     # Dataset parameters
     dataset_location = args.data_path
 
