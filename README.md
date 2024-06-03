@@ -1,10 +1,21 @@
 # CropMAE
 
-PyTorch implementation of CropMAE [[`arXiv`](https://arxiv.org/abs/2403.17823)]. Our code is based on the offial [PyTorch implementation of MAE](https://github.com/facebookresearch/mae).
+PyTorch implementation of CropMAE [[`arXiv`](https://arxiv.org/abs/2403.17823)].
 
 <div align="center">
   <img width="100%" alt="CropMAE illustration" src=".github/CropMAE.png">
 </div>
+
+## Citation
+If you use our code or find our results helpful, please consider citing our work:
+```bibtex
+@article{Eymael2024Efficient,
+	title = {Efficient Image Pre-Training with Siamese Cropped Masked Autoencoders},
+	author = {Eyma{\"e}l, Alexandre and Vandeghen, Renaud and Cioppa, Anthony and Giancola, Silvio and Ghanem, Bernard and Van Droogenbroeck, Marc},
+	journal = {arXiv:2403.17823},
+	year = {2024},
+}
+```
 
 ## Checkpoints
 
@@ -53,3 +64,8 @@ python3 -m downstreams.propagation.start {name} {epoch} {checkpoint}
 ```
 
 This will create the folder `downstreams/propagation/{name}_{epoch}` and evaluate the checkpoint `{checkpoint}` for the three downstream tasks. The results will be saved in this folder, printed to standard output, and reported on Weights & Biases if enabled.
+
+## Acknowledgements
+
+Our code is based on the offial [PyTorch implementation of MAE](https://github.com/facebookresearch/mae).  
+The evaluation code is based on [videowalk](https://github.com/ajabri/videowalk).
