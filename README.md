@@ -6,7 +6,7 @@
 PyTorch implementation of CropMAE, introduced in [Efficient Image Pre-Training with Siamese Cropped Masked Autoencoders](https://arxiv.org/abs/2403.17823), and presented at ECCV 2024.
 
 <div align="center">
-  <img width="100%" alt="CropMAE illustration" src=".github/CropMAE.png">
+  <img width="100%" alt="CropMAE illustration" src=".github/CropMAE_white.png">
 </div>
 
 ## 🚩 Checkpoints
