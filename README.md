@@ -38,7 +38,7 @@ python train_cropmae_in.py --data_path=path/to/imagenet/folder
 ```
 
 #### Multi-GPUs
-We provide a script to start the training on a cluster of GPUs using slurm. Modify the `scripts/train_cropmae_in.sh` with the parameters you want to use and start the training with:
+We provide a script to start the training on a cluster of GPUs using slurm. Modify the `scripts/train_cropmae_in.sh` with your slurm configuration (e.g., account name) and the parameters you want to use, and start the training with:
 ```bash
 cd scripts && sbatch train_cropmae_in.sh
 ```
