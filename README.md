@@ -16,6 +16,10 @@ PyTorch implementation of CropMAE, introduced in [Efficient Image Pre-Training w
 | ImageNet | 60.4               | 33.3 | 43.6    |  [link](https://drive.google.com/file/d/1RTkARjzkM9S3OO87AzVeDbYAF_b2zA-2/view?usp=sharing)
 | K400     | 58.6               | 33.7 | 42.9    |  [link](https://drive.google.com/file/d/1oMXiX_uyGzyQB7S-MYkdJvKFmIuPXkYb/view?usp=sharing)
 
+## 👁️ Visualization Demo
+
+Run an interactive demo of CropMAE using [Colab Notebooks](https://colab.research.google.com/drive/173wOiSf0ViXgTd6ARibVn1E6pN_asJKk)
+
 ## 🚀 Training
 
 ### Environment
@@ -38,7 +42,7 @@ python train_cropmae_in.py --data_path=path/to/imagenet/folder
 ```
 
 #### Multi-GPUs
-We provide a script to start the training on a cluster of GPUs using slurm. Modify the `scripts/train_cropmae_in.sh` with the parameters you want to use and start the training with:
+We provide a script to start the training on a cluster of GPUs using slurm. Modify the `scripts/train_cropmae_in.sh` with your slurm configuration (e.g., account name) and the parameters you want to use, and start the training with:
 ```bash
 cd scripts && sbatch train_cropmae_in.sh
 ```

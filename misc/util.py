@@ -16,7 +16,7 @@ def get_args_parser():
     parser.add_argument('--decoder_embed_dim', default=256, type=int, help='decoder embedding dimension')
     parser.add_argument('--decoder_depth', default=4, type=int, help='number of decoder layers')
     parser.add_argument('--decoder_num_heads', default=8, type=int, help='number of decoder heads')
-    parser.add_argument('--masking_ratio', default=0.95, type=float, help='Masking ratio')
+    parser.add_argument('--masking_ratio', default=0.985, type=float, help='Masking ratio')
     parser.add_argument('--patch_size', default=16, type=int, help='Patch size')
     parser.add_argument('--norm_pix_loss', action='store_true', help='Use (per-patch) normalized pixels as targets for computing loss')
     parser.set_defaults(norm_pix_loss=False)
