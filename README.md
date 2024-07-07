@@ -18,7 +18,7 @@ PyTorch implementation of CropMAE, introduced in [Efficient Image Pre-Training w
 
 ## 👁️ Visualization Demo
 
-Run an interactive demo of CropMAE using [Colab Notebooks](https://colab.research.google.com/drive/173wOiSf0ViXgTd6ARibVn1E6pN_asJKk)
+Run an interactive demo of CropMAE in the cloud using [Colab Notebooks](https://colab.research.google.com/drive/173wOiSf0ViXgTd6ARibVn1E6pN_asJKk), or locally with the [Notebook Demo](cropmae_reconstructions.ipynb).
 
 ## 🚀 Training
 
