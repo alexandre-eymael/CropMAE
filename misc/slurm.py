@@ -1,9 +1,9 @@
 from simple_slurm import Slurm
 import datetime
 
-def submit_DAVIS_slurm(name, epoch, checkpoint):
+def submit_DAVIS_slurm(name, epoch, checkpoint, wandb=True, eval_davis=True, eval_jhmdb=False, eval_vip=False, patch_size=16, backbone="vits"):
 
-    print(f"Creating a job to evaluate {name}@{epoch} with checkpoint {checkpoint} on DAVIS...")
+    out_dir = f"downstreams/propagation/{name}_{epoch}"
 
     # header
     slurm = Slurm(
@@ -25,7 +25,22 @@ def submit_DAVIS_slurm(name, epoch, checkpoint):
     # directory
     slurm.add_cmd("cd CropMAE")
 
+    command = "python3 -m downstreams.propagation.start"
+    command += f" --output_dir={out_dir}"
+    command += f" --checkpoint={checkpoint}"
+    command += f" --backbone={backbone}"
+    command += f" --patch_size={patch_size}"
+    if wandb:
+        command += " --wandb"
+    if eval_davis:
+        command += " --davis"
+    if eval_jhmdb:
+        command += " --jhmdb"
+    if eval_vip:
+        command += " --vip"
+
     # command
-    slurm.sbatch(f"python3 -m downstreams.segmentation.start {name} {epoch} {checkpoint}")
+    print(f"Creating a job to evaluate {name}@{epoch} with checkpoint {checkpoint} with command: `{command}`")
+    slurm.sbatch(command)
 
     return slurm

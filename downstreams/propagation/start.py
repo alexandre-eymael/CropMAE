@@ -229,11 +229,11 @@ if __name__ == "__main__":
         "model_type": model_type,
         "resume": args.checkpoint,
         "save_path": f"{args.output_dir}/davis/in/",
-        "temperature": 0.7,
-        "topk": 7,
-        "radius": 20,
-        "video_len": 20,
-        "crop_size": [480, 880],
+        "temperature": args.davis_temperature,
+        "topk": args.davis_topk,
+        "radius": args.davis_radius,
+        "video_len": args.davis_video_len,
+        "crop_size": args.davis_crop_size,
         "filelist": args.davis_file
     }
     conversion_davis_args = {
@@ -253,40 +253,40 @@ if __name__ == "__main__":
         "model_type": model_type,
         "resume": args.checkpoint,
         "save_path": f"{args.output_dir}/jhmdb/",
-        "temperature": 0.7,
-        "topk": 7,
-        "radius": 20,
-        "video_len": 20,
-        "crop_size": [320, 320],
+        "temperature": args.jhmdb_temperature,
+        "topk": args.jhmdb_topk,
+        "radius": args.jhmdb_radius,
+        "video_len": args.jhmdb_video_len,
+        "crop_size": args.jhmdb_crop_size,
         "filelist": args.jhmdb_file
     }
 
     evaluation_jhmdb_args = {
         "filelist": args.jhmdb_file,
         "src_folder": f"{args.output_dir}/jhmdb/",
-        "feat_res": (20, 20)
+        "feat_res": args.jhmdb_feat_res
     }
 
     vip_prop_args = {
         "model_type": model_type,
         "resume": args.checkpoint,
         "save_path": f"{args.output_dir}/vip/",
-        "temperature": 0.7,
-        "topk": 10,
-        "radius": 20,
-        "video_len": 20,
-        "crop_size": [880],
+        "temperature": args.vip_temperature,
+        "topk": args.vip_topk,
+        "radius": args.vip_radius,
+        "video_len": args.vip_video_len,
+        "crop_size": args.vip_crop_size,
         "filelist": args.vip_file
     }
 
     evaluation_vip_args = {
-        "gt_dir": "datasets/VIP/Annotations/Category_ids/",
+        "gt_dir": f"{args.vip_path}/Annotations/Category_ids/",
         "pre_dir": f"{args.output_dir}/vip/"
     }
 
     os.environ['WANDB_DISABLE_SERVICE'] = "True"
     wandb.init(
-        mode="online",
+        mode="online" if args.wandb else "disabled",
         config = {
             "output_dir": args.output_dir,
             "checkpoint": args.checkpoint,
@@ -302,15 +302,15 @@ if __name__ == "__main__":
         }
     )
 
-    res_davis = evaluate_on_davis(davis_prop_args, conversion_davis_args, evaluation_davis_args)
-    res_jhmdb = evaluate_on_jhmdb(jhmdb_prop_args, evaluation_jhmdb_args)
-    res_vip = evaluate_on_vip(vip_prop_args, evaluation_vip_args)
-    
-    print("Results:")
-    print("DAVIS:", res_davis)
-    print("JHMDB", res_jhmdb)
-    print("VIP", res_vip)
-
-    wandb.log(res_davis)
-    wandb.log(res_jhmdb)
-    wandb.log(res_vip)
+    if args.davis:
+        res_davis = evaluate_on_davis(davis_prop_args, conversion_davis_args, evaluation_davis_args)
+        print("DAVIS RESULTS:", res_davis)
+        wandb.log(res_davis)
+    if args.jhmdb:
+        res_jhmdb = evaluate_on_jhmdb(jhmdb_prop_args, evaluation_jhmdb_args)
+        print("JHMDB RESULTS:", res_jhmdb)
+        wandb.log(res_jhmdb)
+    if args.vip:
+        res_vip = evaluate_on_vip(vip_prop_args, evaluation_vip_args)
+        print("VIP RESULTS:", res_vip)
+        wandb.log(res_vip)
