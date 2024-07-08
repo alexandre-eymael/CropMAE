@@ -22,9 +22,6 @@ def submit_DAVIS_slurm(name, epoch, checkpoint, wandb=True, eval_davis=True, eva
     slurm.add_cmd("module load EasyBuild/2023a")
     slurm.add_cmd("module load CUDA/12.2.0")
 
-    # directory
-    slurm.add_cmd("cd CropMAE")
-
     command = "python3 -m downstreams.propagation.start"
     command += f" --output_dir={out_dir}"
     command += f" --checkpoint={checkpoint}"
