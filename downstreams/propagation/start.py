@@ -1,10 +1,11 @@
-import sys
 import os
 import csv
 from argparse import Namespace
 import sys
 import torch
 import wandb
+
+from .util import get_args_parser as get_prop_args_parser
 
 # Part 1: Label Propagation
 from .src.test import main as label_propagation
@@ -220,90 +221,75 @@ def evaluate_on_vip(label_prop_args, evaluation_davis_args):
 if __name__ == "__main__":
 
     # Arguments
-    name = sys.argv[1]
-    epoch = int(sys.argv[2])
-    checkpoint = sys.argv[3]
-
-    VIT_PATCH_SIZE = 16
-    model_type = f"vits{VIT_PATCH_SIZE}"
-    SET = "val" 
-    DAVIS_ROOT = "downstreams/propagation"
-    
-    DAVIS_DATASET = "datasets/davis-2017/DAVIS_480_880/"
-    DAVIS_FILE = "downstreams/propagation/davis_vallist_480_880.txt"
-    JHMDB_FILE = "downstreams/propagation/jhmdb_vallist.txt"
-    VIP_FILE = "downstreams/propagation/vip_vallist.txt"
+    args = get_prop_args_parser().parse_args()
+    model_type = f"{args.backbone}{args.patch_size}"
 
     davis_prop_args = {
-        "davis_root" : DAVIS_ROOT,
+        #"davis_root" : DAVIS_ROOT,
         "model_type": model_type,
-        "resume": checkpoint,
-        "save_path": f"{DAVIS_ROOT}/{name}_{epoch}/in/",
-        "temperature": 0.7,
-        "topk": 7,
-        "radius": 20,
-        "video_len": 20,
-         "crop_size": [480, 880],
-        "filelist": DAVIS_FILE
+        "resume": args.checkpoint,
+        "save_path": f"{args.output_dir}/davis/in/",
+        "temperature": args.davis_temperature,
+        "topk": args.davis_topk,
+        "radius": args.davis_radius,
+        "video_len": args.davis_video_len,
+        "crop_size": args.davis_crop_size,
+        "filelist": args.davis_file
     }
     conversion_davis_args = {
-        "out_folder": f"{DAVIS_ROOT}/{name}_{epoch}/out/",
-        "in_folder": f"{DAVIS_ROOT}/{name}_{epoch}/in/",
-        "dataset": DAVIS_DATASET,
-        "set" : SET
+        "out_folder": f"{args.output_dir}/davis/out/",
+        "in_folder": f"{args.output_dir}/davis/in/",
+        "dataset": args.davis_path,
+        "set" : "val"
     }
     evaluation_davis_args = {
-        "davis_path": DAVIS_DATASET,
-        "set": SET,
+        "davis_path": args.davis_path,
+        "set": "val",
         "task": "semi-supervised",
-        "results_path": f"{DAVIS_ROOT}/{name}_{epoch}/out/"
+        "results_path": f"{args.output_dir}/davis/out/"
     }
 
     jhmdb_prop_args = {
         "model_type": model_type,
-        "resume": checkpoint,
-        "save_path": f"{DAVIS_ROOT}/{name}_{epoch}/jhmdb/",
-        "temperature": 0.7,
-        "topk": 7,
-        "radius": 20,
-        "video_len": 20,
-        "crop_size": [320, 320],
-        "filelist": JHMDB_FILE
+        "resume": args.checkpoint,
+        "save_path": f"{args.output_dir}/jhmdb/",
+        "temperature": args.jhmdb_temperature,
+        "topk": args.jhmdb_topk,
+        "radius": args.jhmdb_radius,
+        "video_len": args.jhmdb_video_len,
+        "crop_size": args.jhmdb_crop_size,
+        "filelist": args.jhmdb_file
     }
 
     evaluation_jhmdb_args = {
-        "filelist": JHMDB_FILE,
-        "src_folder": f"{DAVIS_ROOT}/{name}_{epoch}/jhmdb/",
-        "feat_res": (20, 20)
+        "filelist": args.jhmdb_file,
+        "src_folder": f"{args.output_dir}/jhmdb/",
+        "feat_res": args.jhmdb_feat_res
     }
 
     vip_prop_args = {
         "model_type": model_type,
-        "resume": checkpoint,
-        "save_path": f"{DAVIS_ROOT}/{name}_{epoch}/vip/",
-        "temperature": 0.7,
-        "topk": 10,
-        "radius": 20,
-        "video_len": 20,
-        "crop_size": [880],
-        "filelist": VIP_FILE
+        "resume": args.checkpoint,
+        "save_path": f"{args.output_dir}/vip/",
+        "temperature": args.vip_temperature,
+        "topk": args.vip_topk,
+        "radius": args.vip_radius,
+        "video_len": args.vip_video_len,
+        "crop_size": args.vip_crop_size,
+        "filelist": args.vip_file
     }
 
     evaluation_vip_args = {
-        "gt_dir": "datasets/VIP/Annotations/Category_ids/",
-        "pre_dir": f"{DAVIS_ROOT}/{name}_{epoch}/vip/"
+        "gt_dir": f"{args.vip_path}/Annotations/Category_ids/",
+        "pre_dir": f"{args.output_dir}/vip/"
     }
 
     os.environ['WANDB_DISABLE_SERVICE'] = "True"
     wandb.init(
-        entity="CropMAE",
-        project="CropMAE-paper-results-e400",
-        mode="online",
-        name=f"{name}_{epoch}",
+        mode="online" if args.wandb else "disabled",
         config = {
-            "name": name,
-            "epoch": epoch,
-            "checkpoint": checkpoint,
+            "output_dir": args.output_dir,
+            "checkpoint": args.checkpoint,
             "params" : {
                 "davis_prop_args": davis_prop_args,
                 "conversion_davis_args": conversion_davis_args,
@@ -316,15 +302,15 @@ if __name__ == "__main__":
         }
     )
 
-    res_davis = evaluate_on_davis(davis_prop_args, conversion_davis_args, evaluation_davis_args)
-    res_jhmdb = evaluate_on_jhmdb(jhmdb_prop_args, evaluation_jhmdb_args)
-    res_vip = evaluate_on_vip(vip_prop_args, evaluation_vip_args)
-    
-    print("Results:")
-    print("DAVIS:", res_davis)
-    print("JHMDB", res_jhmdb)
-    print("VIP", res_vip)
-
-    wandb.log(res_davis)
-    wandb.log(res_jhmdb)
-    wandb.log(res_vip)
+    if args.davis:
+        res_davis = evaluate_on_davis(davis_prop_args, conversion_davis_args, evaluation_davis_args)
+        print("DAVIS RESULTS:", res_davis)
+        wandb.log(res_davis)
+    if args.jhmdb:
+        res_jhmdb = evaluate_on_jhmdb(jhmdb_prop_args, evaluation_jhmdb_args)
+        print("JHMDB RESULTS:", res_jhmdb)
+        wandb.log(res_jhmdb)
+    if args.vip:
+        res_vip = evaluate_on_vip(vip_prop_args, evaluation_vip_args)
+        print("VIP RESULTS:", res_vip)
+        wandb.log(res_vip)
