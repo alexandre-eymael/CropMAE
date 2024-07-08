@@ -70,13 +70,13 @@ train_cropmae_in.py \
 --device=cuda \
 --epochs=400 \
 --input_size=224 \
---log_dir=CropMAE/output_dir \
+--log_dir=./output_dir \
 --log_per_epoch=2 \
 --masking_ratio=0.985 \
 --max_files=99999999999999999 \
 --min_lr_prop=0.0 \
 --num_workers=$OMP_NUM_THREADS \
---output_dir=CropMAE/output_dir \
+--output_dir=./output_dir \
 --patch_size=16 \
 --random_area_min_global=0.10 \
 --random_area_max_global=1.0 \
