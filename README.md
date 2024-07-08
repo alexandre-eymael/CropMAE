@@ -53,13 +53,19 @@ cd scripts && sbatch train_cropmae_in.sh
 Download the [DAVIS](https://davischallenge.org/), [JHMDB](http://jhmdb.is.tue.mpg.de/), and [VIP](https://github.com/HCPLab-SYSU/ATEN) datasets.
 
 ### Perform evaluation
-Adapt `downstreams/propagation/start.py` to include the paths to the datasets you have previously downloaded. You may also adjust other parameters related to the evaluation, though the default settings are based on the ones we used. After making these adjustments, simply execute the following command to start the evaluation:
+The `downstreams/propagation/start.py` script can be used to evaluate a checkpoint on the DAVIS, JHMDB, and VIP datasets. Run the following command to have an overview of the available parameters:
 
 ```bash
-python3 -m downstreams.propagation.start {name} {epoch} {checkpoint}
+python3 -m downstreams.propagation.start -h
 ```
 
-This will create the folder `downstreams/propagation/{name}_{epoch}` and evaluate the checkpoint `{checkpoint}` for the three downstream tasks. The results will be saved in this folder, printed to standard output, and reported on Weights & Biases if enabled.
+For example, to evaluate a checkpoint on the DAVIS dataset with the default evaluation parameters (i.e, the ones used in the paper), you can use the following command:
+
+```bash
+python3 -m downstreams.propagation.start --davis --checkpoint=path/to/checkpoint.pt --output_dir=path/to/output_dir --davis_file=path/to/davis_file --davis_path=path/to/davis_path
+```
+
+This will create the folder `path/to/output_dir/davis` and evaluate the checkpoint `path/to/checkpoint.pt` on DAVIS. The results, both quantitative and qualitative, will be saved in this folder, printed to the standard output stream, and reported on Weights & Biases if enabled.
 
 ## 🖋️ Citation
 If you use our code or find our results helpful, please consider citing our work:
