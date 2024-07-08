@@ -28,7 +28,7 @@ class MaskedAttention(nn.Module):
             H = int(H**0.5)
             W = int(W**0.5)
         
-        gx, gy = torch.meshgrid(torch.arange(0, H), torch.arange(0, W))
+        gx, gy = torch.meshgrid(torch.arange(0, H), torch.arange(0, W), indexing="ij")
         D = ( (gx[None, None, :, :] - gx[:, :, None, None])**2 + (gy[None, None, :, :] - gy[:, :, None, None])**2 ).float() ** 0.5
         D = (D < self.radius)[None].float()
 
