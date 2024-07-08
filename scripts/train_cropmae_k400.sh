@@ -15,7 +15,7 @@ module load EasyBuild/2023a
 module load CUDA/12.2.0
 module list
 
-cd ~/CropMAE
+cd ..
 
 date
 
