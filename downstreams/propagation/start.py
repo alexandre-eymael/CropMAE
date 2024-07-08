@@ -1,10 +1,11 @@
-import sys
 import os
 import csv
 from argparse import Namespace
 import sys
 import torch
 import wandb
+
+from .util import get_args_parser as get_prop_args_parser
 
 # Part 1: Label Propagation
 from .src.test import main as label_propagation
@@ -220,12 +221,16 @@ def evaluate_on_vip(label_prop_args, evaluation_davis_args):
 if __name__ == "__main__":
 
     # Arguments
-    name = sys.argv[1]
-    epoch = int(sys.argv[2])
-    checkpoint = sys.argv[3]
+    args = get_prop_args_parser().parse_args()
 
-    VIT_PATCH_SIZE = 16
-    model_type = f"vits{VIT_PATCH_SIZE}"
+    name = args.name
+    epoch = int(args.epoch)
+    checkpoint = args.checkpoint
+
+    VIT_PATCH_SIZE = int(args.patch_size)
+    backbone = args.backbone
+
+    model_type = f"{backbone}{VIT_PATCH_SIZE}"
     SET = "val" 
     DAVIS_ROOT = "downstreams/propagation"
     
@@ -296,8 +301,6 @@ if __name__ == "__main__":
 
     os.environ['WANDB_DISABLE_SERVICE'] = "True"
     wandb.init(
-        entity="CropMAE",
-        project="CropMAE-paper-results-e400",
         mode="online",
         name=f"{name}_{epoch}",
         config = {
