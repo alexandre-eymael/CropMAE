@@ -13,7 +13,7 @@ PyTorch implementation of CropMAE, introduced in [Efficient Image Pre-Training w
 
 | Dataset  | $J\\&F_m$          | mIoU | PCK@0.1 | Download |
 | -------- | ------------------ | ---- | ------- | -------- |
-| ImageNet | 60.4               | 33.3 | 43.6    |  [link](https://drive.google.com/file/d/1RTkARjzkM9S3OO87AzVeDbYAF_b2zA-2/view?usp=sharing)
+| ImageNet | 60.1               | 33.2 | 43.5    |  [link](https://drive.google.com/file/d/1Hwxpck0MGBJkPNpXRxMOyydtehhhtZbj/view?usp=sharing)
 | K400     | 58.6               | 33.7 | 42.9    |  [link](https://drive.google.com/file/d/1oMXiX_uyGzyQB7S-MYkdJvKFmIuPXkYb/view?usp=sharing)
 
 ## 👁️ Visualization Demo
